@@ -6,6 +6,10 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
+  "engines": {
+    "node": "x.x.x",
+    "npm": "x.x.x"
+  },
   "dependencies": {
     "bcrypt": "^3.0.1",
     "body-parser": "~1.18.2",
