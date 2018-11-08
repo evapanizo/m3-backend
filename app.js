@@ -1,6 +1,8 @@
+'use strict';
+
+// Module dependencies
 const express = require('express');
 const path = require('path');
-const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -10,8 +12,10 @@ const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 require('dotenv').config();
 
+// Project dependencies
 const auth = require('./routes/auth');
 
+// Database connection
 mongoose.connect(process.env.MONGODB_URI, {
   keepAlive: true,
   useNewUrlParser: true,
@@ -20,9 +24,9 @@ mongoose.connect(process.env.MONGODB_URI, {
   console.log(`Connected to database`);
 }).catch((error) => {
   console.error(error);
-})
+});
 
-
+// App
 const app = express();
 
 app.use(cors({
@@ -30,14 +34,7 @@ app.use(cors({
   origin: [process.env.PUBLIC_DOMAIN]
 }));
 
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-//   next();
-// });
-
+// Session
 app.use(session({
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
@@ -51,27 +48,31 @@ app.use(session({
   }
 }));
 
+// Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routes
 app.use('/auth', auth);
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use((req, res, next) => {
   res.status(404).json({ code: 'not found' });
 });
 
+// Error handler
 app.use((err, req, res, next) => {
-  // always log the error
+  // Always log the error
   console.error('ERROR', req.method, req.path, err);
 
-  // only render if the error ocurred before sending the response
+  // Only render if the error ocurred before sending the response
   if (!res.headersSent) {
     res.status(500).json({ code: 'unexpected' });
   }
 });
 
+// Export
 module.exports = app;

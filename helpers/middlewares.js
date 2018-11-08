@@ -1,4 +1,7 @@
-exports.isLoggedIn = () => (req, res, next) => {
+'use strict';
+
+// Checks if user is logged in
+const isLoggedIn = () => (req, res, next) => {
   if (req.session.currentUser) {
     next();
   } else {
@@ -9,3 +12,7 @@ exports.isLoggedIn = () => (req, res, next) => {
   }
 };
 
+// Export middlewares
+module.exports = {
+  isLoggedIn
+};
