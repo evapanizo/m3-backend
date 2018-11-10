@@ -6,12 +6,16 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 // Project dependencies
+/// Models
 const User = require('../models/user');
+
+/// Helpers
+const { isLoggedIn } = require('../helpers/middlewares');
 
 // Route '/auth/me' - returns the current user
 router.get('/me', (req, res, next) => {
   if (req.session.currentUser) {
-    res.json(req.session.currentUser);
+    res.status(200).json(req.session.currentUser);
   } else {
     res.status(404).json({
       error: 'not-found'
@@ -78,26 +82,34 @@ router.post('/signup', (req, res, next) => {
       const hashPass = bcrypt.hashSync(password, salt);
       const newUser = User({ email, password: hashPass });
 
-      return newUser.save().then(() => {
-        req.session.currentUser = newUser;
-        res.json(newUser);
-      });
+      return newUser.save()
+        .then(() => {
+          req.session.currentUser = newUser;
+          res.status(200).json(newUser);
+        });
     })
     .catch(next);
 });
 
-// Route '/auth/login' - handles the logout process
+// Route '/auth/logout' - handles the logout process
 router.post('/logout', (req, res) => {
   req.session.currentUser = null;
   return res.status(204).send();
 });
 
-// Para proteger consultas privadas
-// const { isLoggedIn } = require('../helpers/middlewares');
-// router.get('/private', isLoggedIn(), (req, res, next) => {
-//   res.status(200).json({
-//     message: 'This is a private message'
-//   });
-// });
+// Route '/auth/update' - updates the user information
+router.put('/update', isLoggedIn(), (req, res, next) => {
+  const { firstName, lastName, deliveryAddress, phone, completedProfile } = req.body;
+  const userId = req.session.currentUser._id;
+  User.findByIdAndUpdate(userId, { firstName, lastName, deliveryAddress, phone, completedProfile }, { new: true })
+    .then((user) => {
+      req.session.currentUser = user;
+      res.status(200).json(user);
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
 
+// Exports
 module.exports = router;

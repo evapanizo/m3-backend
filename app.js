@@ -14,6 +14,7 @@ require('dotenv').config();
 
 // Project dependencies
 const auth = require('./routes/auth');
+const box = require('./routes/box');
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI, {
@@ -57,6 +58,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/auth', auth);
+app.use('/box', box);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
