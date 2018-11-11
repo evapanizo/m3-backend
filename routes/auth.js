@@ -15,9 +15,9 @@ const { isLoggedIn } = require('../helpers/middlewares');
 // Route '/auth/me' - returns the current user
 router.get('/me', (req, res, next) => {
   if (req.session.currentUser) {
-    res.status(200).json(req.session.currentUser);
+    return res.status(200).json(req.session.currentUser);
   } else {
-    res.status(404).json({
+    return res.status(404).json({
       error: 'not-found'
     });
   }
@@ -82,10 +82,10 @@ router.post('/signup', (req, res, next) => {
       const hashPass = bcrypt.hashSync(password, salt);
       const newUser = User({ email, password: hashPass });
 
-      return newUser.save()
+      newUser.save()
         .then(() => {
           req.session.currentUser = newUser;
-          res.status(200).json(newUser);
+          return res.status(200).json(newUser);
         });
     })
     .catch(next);
@@ -103,12 +103,15 @@ router.put('/update', isLoggedIn(), (req, res, next) => {
   const userId = req.session.currentUser._id;
   User.findByIdAndUpdate(userId, { firstName, lastName, deliveryAddress, phone, completedProfile }, { new: true })
     .then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          error: 'user-not-found'
+        });
+      }
       req.session.currentUser = user;
-      res.status(200).json(user);
+      return res.status(200).json(user);
     })
-    .catch((error) => {
-      next(error);
-    });
+    .catch(next);
 });
 
 // Exports
