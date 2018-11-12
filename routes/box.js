@@ -25,6 +25,23 @@ router.get('/get', isLoggedIn(), (req, res, next) => {
     .catch(next);
 });
 
+// Route '/box/populate' - gets the user's box data
+router.get('/populate', isLoggedIn(), (req, res, next) => {
+  const owner = req.session.currentUser._id;
+  Box.findOne({ owner })
+    // .populate('products ')
+    .populate('products.productId')
+    .then(box => {
+      if (!box) {
+        return res.status(404).json({
+          error: 'box-not-found'
+        });
+      }
+      return res.status(200).json(box);
+    })
+    .catch(next);
+});
+
 // Route '/box/create' - creates a box
 router.post('/create', isLoggedIn(), (req, res, next) => {
   const { price, size, maxQuantity, products, owner } = req.body;
@@ -40,9 +57,9 @@ router.post('/create', isLoggedIn(), (req, res, next) => {
 router.put('/edit', isLoggedIn(), (req, res, next) => {
   const { price, size, maxQuantity, products } = req.body;
   const userId = req.session.currentUser._id;
-  Box.findOneAndUpdate({ owner: userId }, { price, size, maxQuantity, products })
-    .then(() => {
-      return res.status(200).json({ 'message': 'updated' });
+  Box.findOneAndUpdate({ owner: userId }, { price, size, maxQuantity, products }, { new: true })
+    .then((updated) => {
+      return res.status(200).json({ 'message': 'updated', updated });
     })
     .catch(next);
 });

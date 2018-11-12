@@ -10,8 +10,8 @@ const { isLoggedIn } = require('../helpers/middlewares');
 /// Models
 const Products = require('../models/product');
 
-// Route '/products/get' - gets the products in the database
-router.get('/get', isLoggedIn(), (req, res, next) => {
+// Route '/products' - gets the products in the database
+router.get('/', isLoggedIn(), (req, res, next) => {
   Products.find()
     .then(products => {
       if (!products) {
@@ -24,10 +24,24 @@ router.get('/get', isLoggedIn(), (req, res, next) => {
     .catch(next);
 });
 
+// Route '/products' - returns the products with the IDs in array
+router.post('/', isLoggedIn(), (req, res, next) => {
+  const idArray = req.body;
+  Products.find({ _id: { $in: idArray } })
+    .then(products => {
+      if (!products) {
+        return res.status(404).json({
+          error: 'empty-box'
+        });
+      }
+      return res.status(200).json(products);
+    })
+    .catch(next);
+});
+
 // Route '/products/search' - gets the products in the database
 router.get('/search', isLoggedIn(), (req, res, next) => {
   const searchValue = req.query.name;
-  console.log(searchValue);
   Products.find({ 'name': { $regex: `^${searchValue}.*$`, $options: 'i' } })
     .then(products => {
       if (!products) {
