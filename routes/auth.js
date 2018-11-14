@@ -114,5 +114,22 @@ router.put('/update', isLoggedIn(), (req, res, next) => {
     .catch(next);
 });
 
+// Route '/auth/update' - updates the user information
+router.put('/payment', isLoggedIn(), (req, res, next) => {
+  const { payment } = req.body;
+  const userId = req.session.currentUser._id;
+  User.findByIdAndUpdate(userId, { payment }, { new: true })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          error: 'user-not-found'
+        });
+      }
+      req.session.currentUser = user;
+      return res.status(200).json(user);
+    })
+    .catch(next);
+});
+
 // Exports
 module.exports = router;
