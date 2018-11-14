@@ -1,121 +1,121 @@
 const products = [
   {
     name: 'Carrot',
-    image: 'https://bit.ly/2FiKD3u',
+    image: '/images/carrot.jpg',
     stock: 2000,
     description: 'Carrots contain vitamin A, antioxidants, and other nutrients. Evidence suggests that eating more antioxidant-rich fruits and vegetables, such as carrots, can help reduce the risks of cancer and cardiovascular disease. Carrots are also rich in vitamins, minerals, and fiber.'
   },
   {
     name: 'Potato',
-    image: 'https://bit.ly/2DCebHJ',
+    image: '/images/potatoes.jpeg',
     stock: 1000,
     description: ''
   },
   {
     name: 'Sweet Corn',
-    image: 'https://bit.ly/2QIk5dm',
+    image: '/images/sweetcorn.jpg',
     stock: 1,
     description: ''
   },
   {
     name: 'Green Bean',
-    image: 'https://bit.ly/2TalB9K',
+    image: '/images/greenbeans.jpg',
     stock: 3000,
     description: ''
   },
   {
     name: 'Brocoli',
-    image: 'https://bit.ly/2PX52zk',
+    image: '/images/brocoli.jpeg',
     stock: 3,
     description: ''
   },
   {
     name: 'Tomato',
-    image: 'https://bit.ly/2PVhqQp',
+    image: '/images/tomatoes.jpg',
     stock: 1500,
     description: ''
   },
   {
     name: 'Garlic',
-    image: 'https://bit.ly/2PVhq2R',
+    image: '/images/garlic.jpg',
     stock: 700,
     description: ''
   },
   {
     name: 'Cucumber',
-    image: 'https://bit.ly/2RQrTtN',
+    image: '/images/cucumber.jpg',
     stock: 500,
     description: ''
   },
   {
     name: 'Spinach',
-    image: 'https://bit.ly/2QFIpfT',
+    image: '/images/spinach.jpg',
     stock: 1000,
     description: ''
   },
   {
     name: 'Onion',
-    image: 'https://bit.ly/2PU3HJG',
+    image: '/images/onions.jpg',
     stock: 5,
     description: ''
   },
   {
     name: 'Apple',
-    image: 'https://bit.ly/2RNrvw6',
+    image: '/images/apple.jpg',
     stock: 2000,
     description: ''
   },
   {
     name: 'Banana',
-    image: 'https://bit.ly/2Ppbfol',
+    image: '/images/bananas.jpg',
     stock: 1000,
     description: ''
   },
   {
     name: 'Pear',
-    image: 'https://bit.ly/2FiSXQL',
+    image: '/images/pear.jpg',
     stock: 1,
     description: ''
   },
   {
     name: 'Peach',
-    image: 'https://bit.ly/2QBSGJT',
+    image: '/images/peaches.png',
     stock: 3000,
     description: ''
   },
   {
     name: 'Orange',
-    image: 'https://bit.ly/2za7zN8',
+    image: '/images/oranges.jpg',
     stock: 3,
     description: ''
   },
   {
     name: 'Kiwi',
-    image: 'https://bit.ly/2T8qrV0',
+    image: '/images/kiwis.jpg',
     stock: 1500,
     description: ''
   },
   {
     name: 'Apricot',
-    image: 'https://bit.ly/2zQDRwc',
+    image: '/images/apricots.jpeg',
     stock: 700,
     description: ''
   },
   {
     name: 'Blueberries',
-    image: 'https://bit.ly/2DliPJq',
+    image: '/images/blueberries.jpg',
     stock: 500,
     description: ''
   },
   {
     name: 'Grapes',
-    image: 'https://bit.ly/2OIkgn6',
+    image: '/images/grapes.jpg',
     stock: 1000,
     description: ''
   },
   {
     name: 'Dragon Fruit',
-    image: 'https://bit.ly/2K03y1M',
+    image: '/images/dragonfruit.jpg',
     stock: 5,
     description: ''
   }
