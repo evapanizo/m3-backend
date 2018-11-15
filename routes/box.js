@@ -29,7 +29,6 @@ router.get('/get', isLoggedIn(), (req, res, next) => {
 router.get('/populate', isLoggedIn(), (req, res, next) => {
   const owner = req.session.currentUser._id;
   Box.findOne({ owner })
-    // .populate('products ')
     .populate('products.productId')
     .then(box => {
       if (!box) {
