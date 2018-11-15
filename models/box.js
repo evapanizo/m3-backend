@@ -12,7 +12,7 @@ const boxSchema = new Schema({
   maxQuantity: { type: Number, enum: [2, 5, 10] },
   products: [{
     quantity: { type: Number, min: 0 },
-    productId: { type: ObjectId, ref: 'Product' }
+    boxProduct: { type: ObjectId, ref: 'Product' }
   }],
   owner: { type: ObjectId, ref: 'User' }
 }, {

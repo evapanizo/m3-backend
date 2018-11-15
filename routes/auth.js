@@ -12,7 +12,7 @@ const User = require('../models/user');
 /// Helpers
 const { isLoggedIn } = require('../helpers/middlewares');
 
-// Route '/auth/me' - returns the current user
+// Route '/auth/me' - returns the current user (for each refresh)
 router.get('/me', (req, res, next) => {
   if (req.session.currentUser) {
     return res.status(200).json(req.session.currentUser);
@@ -43,15 +43,18 @@ router.post('/login', (req, res, next) => {
   // Check if user has logged in correctly
   User.findOne({ email })
     .then((user) => {
+      // If the user does not exist, return error
       if (!user) {
         return res.status(404).json({
           error: 'user-not-found'
         });
       }
+      // Check if the password is correct
       if (bcrypt.compareSync(password, user.password)) {
         req.session.currentUser = user;
         return res.status(200).json(user);
       }
+      // If the password is wrong, returns error
       return res.status(404).json({
         error: 'wrong-password'
       });
@@ -70,18 +73,20 @@ router.post('/signup', (req, res, next) => {
     });
   }
 
-  // Check that nobody in the database has already signed up with the given email
   User.findOne({ email }, 'email')
     .then((userExists) => {
+      // Check that the user does not exist. Else, returns error.
       if (userExists) {
         return res.status(422).json({
           error: 'email-not-unique'
         });
       }
+      // Password encryption
       const salt = bcrypt.genSaltSync(10);
       const hashPass = bcrypt.hashSync(password, salt);
       const newUser = User({ email, password: hashPass });
 
+      // Save new user
       newUser.save()
         .then(() => {
           req.session.currentUser = newUser;
@@ -97,7 +102,7 @@ router.post('/logout', (req, res) => {
   return res.status(204).send();
 });
 
-// Route '/auth/update' - updates the user information
+// Route '/auth/update' - updates the user account
 router.put('/update', isLoggedIn(), (req, res, next) => {
   const { firstName, lastName, deliveryAddress, phone, completedProfile } = req.body;
   const userId = req.session.currentUser._id;
@@ -114,7 +119,7 @@ router.put('/update', isLoggedIn(), (req, res, next) => {
     .catch(next);
 });
 
-// Route '/auth/update' - updates the user information
+// Route '/auth/payment' - Updates the payment state of a user
 router.put('/payment', isLoggedIn(), (req, res, next) => {
   const { payment } = req.body;
   const userId = req.session.currentUser._id;

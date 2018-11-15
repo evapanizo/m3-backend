@@ -10,7 +10,7 @@ const { isLoggedIn } = require('../helpers/middlewares');
 /// Models
 const Box = require('../models/box');
 
-// Route '/box/get' - gets the user's box data
+// Route '/box/get' - Gets the user's box data
 router.get('/get', isLoggedIn(), (req, res, next) => {
   const owner = req.session.currentUser._id;
   Box.findOne({ owner })
@@ -25,7 +25,7 @@ router.get('/get', isLoggedIn(), (req, res, next) => {
     .catch(next);
 });
 
-// Route '/box/populate' - gets the user's box data
+// Route '/box/populate' - Gets the user's box data populated
 router.get('/populate', isLoggedIn(), (req, res, next) => {
   const owner = req.session.currentUser._id;
   Box.findOne({ owner })
@@ -41,7 +41,7 @@ router.get('/populate', isLoggedIn(), (req, res, next) => {
     .catch(next);
 });
 
-// Route '/box/create' - creates a box
+// Route '/box/create' - Creates a box
 router.post('/create', isLoggedIn(), (req, res, next) => {
   const { price, size, maxQuantity, products, owner } = req.body;
   const box = Box({ price, size, maxQuantity, products, owner });
@@ -52,7 +52,7 @@ router.post('/create', isLoggedIn(), (req, res, next) => {
     .catch(next);
 });
 
-// Route '/box/edit' - edits the user's box
+// Route '/box/edit' - Edits the user's box
 router.put('/edit', isLoggedIn(), (req, res, next) => {
   const { price, size, maxQuantity, products } = req.body;
   const userId = req.session.currentUser._id;

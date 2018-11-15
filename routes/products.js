@@ -10,7 +10,7 @@ const { isLoggedIn } = require('../helpers/middlewares');
 /// Models
 const Products = require('../models/product');
 
-// Route '/products' - gets the products in the database
+// Route '/products' - Gets the products in the database
 router.get('/', isLoggedIn(), (req, res, next) => {
   Products.find()
     .then(products => {
@@ -24,7 +24,7 @@ router.get('/', isLoggedIn(), (req, res, next) => {
     .catch(next);
 });
 
-// Route '/products' - returns the products with the IDs in array
+// Route '/products' - Returns the products with the IDs in array
 router.post('/', isLoggedIn(), (req, res, next) => {
   const idArray = req.body;
   Products.find({ _id: { $in: idArray } })

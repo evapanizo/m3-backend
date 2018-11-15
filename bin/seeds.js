@@ -9,7 +9,6 @@ const products = require('../data/products');
 const Product = require('../models/product');
 
 // Database connection
-console.log(process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI, {
   keepAlive: true,
   useNewUrlParser: true,
@@ -28,5 +27,3 @@ mongoose.connect(process.env.MONGODB_URI, {
   }).catch((error) => {
     console.error(error);
   });
-
-// Database
