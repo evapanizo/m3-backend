@@ -31,6 +31,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 // App
 const app = express();
 
+// CORS
 app.use(cors({
   credentials: true,
   origin: [process.env.PUBLIC_DOMAIN]
@@ -50,7 +51,7 @@ app.use(session({
   }
 }));
 
-// Setup
+// Setup logs && data parsers
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
